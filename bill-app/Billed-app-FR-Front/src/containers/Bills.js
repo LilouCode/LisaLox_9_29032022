@@ -53,7 +53,15 @@ export default class {
             }
           })
           console.log('length', bills.length)
-        return bills
+          // console.log(bills[1].date)
+          // bills.forEach(bill =>{
+          //   console.log (bill.date)
+          //   return bill
+          // })
+          const antiChrono = (a, b) => ((a.date < b.date) ? 1 : -1)
+          const billsDatesSorted = [...bills].sort(antiChrono)
+          
+        return billsDatesSorted
       })
     }
   }
