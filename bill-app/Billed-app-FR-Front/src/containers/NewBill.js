@@ -15,6 +15,7 @@ export default class NewBill {
     this.billId = null
     new Logout({ document, localStorage, onNavigate })
   }
+  
   handleChangeFile = e => {
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
@@ -22,10 +23,12 @@ export default class NewBill {
     const fileName = filePath[filePath.length-1]
     const formData = new FormData()
     const email = JSON.parse(localStorage.getItem("user")).email
+    const fileReg= new RegExp("\.(jpg|jpeg|png?)$","i")
+    const errorFile= this.document.getElementById("error-file");
     formData.append('file', file)
     formData.append('email', email)
-
-    this.store
+    if (fileReg.test(fileName)){
+      this.store
       .bills()
       .create({
         data: formData,
@@ -39,12 +42,21 @@ export default class NewBill {
         this.fileUrl = fileUrl
         this.fileName = fileName
         console.log(this.fileName)
+        errorFile.style.display= "none"
       }).catch(error => console.error(error))
+    } else{
+      errorFile.style.display= "block"
+      errorFile.style.color = "red"
+      errorFile.innerHTML= "Veuillez uniquement choisir un fichier jpg, jpeg ou png"
+    }
   }
+  
   handleSubmit = e => {
     e.preventDefault()
+    const fileReg= new RegExp("\.(jpg|jpeg|png?)$","i")
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
-    const email = JSON.parse(localStorage.getItem("user")).email
+    if (fileReg.test(this.fileName)){
+      const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
       email,
       type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
@@ -58,17 +70,14 @@ export default class NewBill {
       fileName: this.fileName,
       status: 'pending'
     }
-    const fileReg= new RegExp("\.(jpg|jpeg|png?)$","i")
-    const errorFile= document.getElementById("error-file");
-    if (fileReg.test(this.fileName)){
-      errorFile.style.display= "none"
-      this.updateBill(bill)
-      this.onNavigate(ROUTES_PATH['Bills']) 
-    } else {
-      errorFile.style.display= "block"
-      errorFile.innerHTML= "Veuillez uniquement choisir un fichier jpg, jpeg ou png"}
+    
+    this.updateBill(bill)
+    this.onNavigate(ROUTES_PATH['Bills'])
+    } else{
+      console.log("not yet")
+    }
+  
   }
-
   // not need to cover this function by tests
   updateBill = (bill) => {
     if (this.store) {
