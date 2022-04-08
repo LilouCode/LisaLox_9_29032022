@@ -38,6 +38,7 @@ export default class NewBill {
         this.billId = key
         this.fileUrl = fileUrl
         this.fileName = fileName
+        console.log(this.fileName)
       }).catch(error => console.error(error))
   }
   handleSubmit = e => {
@@ -57,8 +58,15 @@ export default class NewBill {
       fileName: this.fileName,
       status: 'pending'
     }
-    this.updateBill(bill)
-    this.onNavigate(ROUTES_PATH['Bills'])
+    const fileReg= new RegExp("\.(jpg|jpeg|png?)$","i")
+    const errorFile= document.getElementById("error-file");
+    if (fileReg.test(this.fileName)){
+      errorFile.style.display= "none"
+      this.updateBill(bill)
+      this.onNavigate(ROUTES_PATH['Bills']) 
+    } else {
+      errorFile.style.display= "block"
+      errorFile.innerHTML= "Veuillez uniquement choisir un fichier jpg, jpeg ou png"}
   }
 
   // not need to cover this function by tests
