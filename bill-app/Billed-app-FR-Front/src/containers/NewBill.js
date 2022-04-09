@@ -45,18 +45,19 @@ export default class NewBill {
         errorFile.style.display= "none"
       }).catch(error => console.error(error))
     } else{
+      this.document.querySelector(`input[data-testid="file"]`).value= null
+      console.log(file)
       errorFile.style.display= "block"
       errorFile.style.color = "red"
       errorFile.innerHTML= "Veuillez uniquement choisir un fichier jpg, jpeg ou png"
+      
     }
   }
   
   handleSubmit = e => {
     e.preventDefault()
-    const fileReg= new RegExp("\.(jpg|jpeg|png?)$","i")
     console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
-    if (fileReg.test(this.fileName)){
-      const email = JSON.parse(localStorage.getItem("user")).email
+    const email = JSON.parse(localStorage.getItem("user")).email
     const bill = {
       email,
       type: e.target.querySelector(`select[data-testid="expense-type"]`).value,
@@ -70,13 +71,8 @@ export default class NewBill {
       fileName: this.fileName,
       status: 'pending'
     }
-    
     this.updateBill(bill)
     this.onNavigate(ROUTES_PATH['Bills'])
-    } else{
-      console.log("not yet")
-    }
-  
   }
   // not need to cover this function by tests
   updateBill = (bill) => {
