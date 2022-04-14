@@ -88,11 +88,8 @@ describe("Given I am connected as an employee", () => {
         document.body.appendChild(icon)
 
         const handleClickIconEye = jest.fn(billdashboard.handleClickIconEye)
-        const iconEye = []
-        iconEye.push(icon)
-        iconEye.forEach(e => {
-        e.addEventListener('click', () => this.handleClickIconEye(e))
-        })
+  
+        icon.addEventListener('click', handleClickIconEye(icon))
         fireEvent.click(icon)
         expect(handleClickIconEye).toHaveBeenCalled()
         const modal = screen.getByText('Justificatif')
