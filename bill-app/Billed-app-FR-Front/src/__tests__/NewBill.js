@@ -106,27 +106,6 @@ describe("Given I am connected as an employee", () => {
       }
       expect(errorFile.innerHTML).toBe("")
     })
-    test("Then I fill in the form with a file in mp4 format", async () => {
-      const alert = screen.getByTestId("alert")
-      const onNavigate = (pathname) => {document.body.innerHTML = ROUTES({ pathname })}
-      const newBill = new NewBill ({document, onNavigate, store: null, localStorage: window.localStorage })
-      const handleChangeFile = jest.fn(newBill.handleChangeFile)
-      const justificatif = document.getElementById('file')
-      const file = justificatif.value
-      const fileName = "test.mp4"
-      
-    })
-    test('it should work', async () =>{
-      const html = NewBillUI()
-      document.body.innerHTML = html
-      const file = screen.getByTestId("file")
-      const onNavigate = (pathname) => {document.body.innerHTML = ROUTES({ pathname })}
-      const newBill = new NewBill ({document, onNavigate, store: null, localStorage: window.localStorage })
-      const handleChangeFile = jest.fn(newBill.handleChangeFile)
-      file.addEventListener('change',handleChangeFile)
-      
-      
-    })
   })
 })
 
