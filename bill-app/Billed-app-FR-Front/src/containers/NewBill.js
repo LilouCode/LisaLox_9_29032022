@@ -37,16 +37,13 @@ export default class NewBill {
         }
       })
       .then(({fileUrl, key}) => {
-        console.log(fileUrl)
         this.billId = key
         this.fileUrl = fileUrl
         this.fileName = fileName
-        console.log(this.fileName)
         errorFile.style.display= "none"
       }).catch(error => console.error(error))
     } else{
       this.document.querySelector(`input[data-testid="file"]`).value= null
-      console.log(file)
       errorFile.style.display= "block"
       errorFile.style.color = "red"
       errorFile.innerHTML= "Veuillez uniquement choisir un fichier jpg, jpeg ou png"
@@ -75,6 +72,7 @@ export default class NewBill {
     this.onNavigate(ROUTES_PATH['Bills'])
   }
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
       this.store
