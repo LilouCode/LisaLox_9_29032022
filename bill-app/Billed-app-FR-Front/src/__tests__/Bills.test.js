@@ -88,12 +88,13 @@ describe("Given I am connected as an employee", () => {
         document.body.appendChild(icon)
 
         const handleClickIconEye = jest.fn(billdashboard.handleClickIconEye)
-  
+        $.fn.modal = jest.fn()
         icon.addEventListener('click', handleClickIconEye(icon))
         fireEvent.click(icon)
         expect(handleClickIconEye).toHaveBeenCalled()
-        const modal = screen.getByText('Justificatif')
-        expect(modal).toBeTruthy()
+        const header = screen.getByText('Justificatif')
+        expect($.fn.modal).toHaveBeenCalled()
+        expect(header).toBeTruthy()
         
       })
     });
